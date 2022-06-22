@@ -16,7 +16,9 @@ export const makeTodoContext = () => {
       id: null,
       name: "Tasks",
     } as const);
-  const [tasks, setTasks] = createSignal<Task[]>([]);
+  const [tasks, setTasks] = createStore<Task[]>([]);
+
+  const taskIdsBeingAdded: { [id: number]: boolean } = {};
 
   return {
     taskLists,
@@ -26,10 +28,11 @@ export const makeTodoContext = () => {
     taskList,
     tasks,
     setTasks,
+    taskIdsBeingAdded,
   };
 };
 
-type TodoContextType = ReturnType<typeof makeTodoContext>;
+export type TodoContextType = ReturnType<typeof makeTodoContext>;
 
 const TodoContext = createContext<TodoContextType>(makeTodoContext());
 
