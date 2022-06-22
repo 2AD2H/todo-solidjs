@@ -27,3 +27,16 @@ export const addTask = (task: Task, ctx: TodoContextType) => {
     );
   });
 };
+
+export const toggleTask = (task: Task, ctx: TodoContextType) => {
+  const { setTasks } = ctx;
+
+  // Optimistically update the task.
+  setTasks(
+    (needle) => needle.id === task.id,
+    "isChecked",
+    (isChecked) => !isChecked
+  );
+
+  // TODO: Call the API to update the task.
+};
