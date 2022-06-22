@@ -6,7 +6,7 @@ const Sidebar: Component = () => {
   const { taskLists, taskListId } = useTodo();
 
   return (
-    <div class="bg-neutral-900 w-60 overflow-y-auto">
+    <div class="bg-neutral-800 w-60 overflow-y-auto">
       <TaskListItem
         taskListId={null}
         icon="🏠"

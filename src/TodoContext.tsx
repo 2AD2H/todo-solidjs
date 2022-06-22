@@ -5,7 +5,7 @@ import {
   useContext,
 } from "solid-js";
 import { createStore } from "solid-js/store";
-import { TaskList } from "./types";
+import { Task, TaskList } from "./types";
 
 export const makeTodoContext = () => {
   const [taskLists, setTaskLists] = createStore<TaskList[]>([]);
@@ -16,8 +16,17 @@ export const makeTodoContext = () => {
       id: null,
       name: "Tasks",
     } as const);
+  const [tasks, setTasks] = createSignal<Task[]>([]);
 
-  return { taskLists, setTaskLists, taskListId, setTaskListId, taskList };
+  return {
+    taskLists,
+    setTaskLists,
+    taskListId,
+    setTaskListId,
+    taskList,
+    tasks,
+    setTasks,
+  };
 };
 
 type TodoContextType = ReturnType<typeof makeTodoContext>;

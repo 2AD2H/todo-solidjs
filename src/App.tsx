@@ -1,19 +1,25 @@
-import { Component, onMount } from "solid-js";
+import { Component, createEffect, onMount } from "solid-js";
 import Content from "./components/Content";
 import Sidebar from "./components/Sidebar";
+import { placeholderTasks } from "./placeholderData";
 import { useTodo } from "./TodoContext";
 
 const App: Component = () => {
-  const { setTaskLists } = useTodo();
+  const { setTaskLists, setTasks, taskListId, tasks } = useTodo();
+
   onMount(() => {
     (async () => {
       setTaskLists([
         { id: 1, name: "Task List 1" },
         { id: 2, name: "Task List 2" },
         { id: 3, name: "Task List 3" },
-        { id: 4, name: "Task List 4" },
       ]);
     })();
+  });
+
+  // Change tasks when task list changes
+  createEffect(() => {
+    setTasks(placeholderTasks[taskListId() ?? "null"]);
   });
 
   return (
