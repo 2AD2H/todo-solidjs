@@ -1,7 +1,15 @@
 /* @refresh reload */
-import { render } from 'solid-js/web';
+import { render } from "solid-js/web";
 
-import './index.css';
-import App from './App';
+import "./index.css";
+import App from "./App";
+import { TodoProvider } from "./TodoContext";
 
-render(() => <App />, document.getElementById('root') as HTMLElement);
+render(
+  () => (
+    <TodoProvider>
+      <App />
+    </TodoProvider>
+  ),
+  document.getElementById("root") as HTMLElement
+);
