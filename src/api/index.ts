@@ -13,7 +13,6 @@ export const addTask = (task: Task, ctx: TodoContextType) => {
 
   // Add the temporary task to the list.
   setTasks([...tasks, newTask]);
-  console.log(JSON.parse(JSON.stringify(tasks)));
 
   taskIdsBeingAdded[newTask.id] = true;
 
