@@ -31,6 +31,7 @@ const Content: Component = () => {
           <input
             type="text"
             class="flex-1 bg-neutral-700 border-0 focus:ring-0 text-white p-0"
+            placeholder="Add a task"
             onKeyUp={handleInputCommit}
           />
         </div>
