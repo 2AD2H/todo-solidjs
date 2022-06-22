@@ -14,7 +14,7 @@ const Task: Component<Props> = (props) => {
   };
 
   return (
-    <div class="min-h-[3.5rem] w-full bg-neutral-700 flex px-4 py-2 gap-4 rounded-sm">
+    <div class="min-h-[3.5rem] w-full bg-neutral-800 flex px-4 py-2 gap-4 rounded-sm hover:bg-neutral-700">
       <div class="h-10 flex items-center">
         <input
           type="checkbox"
@@ -24,7 +24,7 @@ const Task: Component<Props> = (props) => {
         />
       </div>
       <div class="flex-1 flex items-center">
-        <span class="text-white">{props.task.name}</span>
+        <span class="text-white cursor-default">{props.task.name}</span>
       </div>
       <div class="h-10 flex items-center">
         <svg
