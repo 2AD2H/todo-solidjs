@@ -40,3 +40,20 @@ export const toggleTask = (task: Task, ctx: TodoContextType) => {
 
   // TODO: Call the API to update the task.
 };
+
+export const renameTask = (
+  taskId: number,
+  newTaskName: string,
+  ctx: TodoContextType
+) => {
+  const { setTasks } = ctx;
+
+  // Optimistically update the task.
+  setTasks(
+    (needle) => needle.id === taskId,
+    "name",
+    (_) => newTaskName
+  );
+
+  // TODO: Call the API to update the task.
+};

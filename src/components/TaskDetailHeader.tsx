@@ -1,5 +1,5 @@
 import { Component, JSX } from "solid-js";
-import { toggleTask } from "../api";
+import { renameTask, toggleTask } from "../api";
 import { useTodo } from "../TodoContext";
 import { Task as TaskType } from "../types";
 
@@ -19,6 +19,14 @@ const TaskDetailHeader: Component<Props> = (props) => {
     toggleTask(props.task, todo);
   };
 
+  const handleInputCommit: JSX.EventHandler<HTMLInputElement, KeyboardEvent> = (
+    e
+  ) => {
+    if (e.key !== "Enter" || e.currentTarget.value === "") return;
+    renameTask(props.task.id, e.currentTarget.value, todo);
+    e.currentTarget.blur();
+  };
+
   return (
     <div
       class="min-h-[3.5rem] w-full bg-neutral-700 flex px-4 py-2 gap-4 rounded-sm"
@@ -36,6 +44,7 @@ const TaskDetailHeader: Component<Props> = (props) => {
         type="text"
         class="bg-neutral-700 text-white cursor-text text-2xl border-0 flex-1 min-w-0 focus:ring-0"
         value={props.task.name}
+        onKeyUp={handleInputCommit}
       />
       <div class="h-10 flex items-center">
         <svg
