@@ -3,7 +3,7 @@ import { addTask } from "../api";
 import { useTodo } from "../TodoContext";
 import Task from "./Task";
 
-const Content: Component = () => {
+const TaskListContent: Component = () => {
   const todo = useTodo();
   const { taskList, tasks } = todo;
 
@@ -26,11 +26,11 @@ const Content: Component = () => {
       </div>
 
       <div class="bg-neutral-900 absolute bottom-0 left-0 right-0 bg-opacity-60 px-10 pt-2 pb-10">
-        <div class="w-full bg-neutral-800 h-14 flex items-center rounded-sm">
+        <div class="w-full bg-neutral-700 h-14 flex items-center rounded-sm">
           <span class="px-3">➕</span>
           <input
             type="text"
-            class="flex-1 bg-neutral-800 border-0 focus:ring-0 text-white p-0"
+            class="flex-1 bg-neutral-700 border-0 focus:ring-0 text-white p-0"
             placeholder="Add a task"
             onKeyUp={handleInputCommit}
           />
@@ -40,4 +40,4 @@ const Content: Component = () => {
   );
 };
 
-export default Content;
+export default TaskListContent;

@@ -1,11 +1,12 @@
-import { Component, createEffect, onMount } from "solid-js";
-import Content from "./components/Content";
+import { Component, createEffect, onMount, Show } from "solid-js";
+import TaskListContent from "./components/TaskListContent";
 import Sidebar from "./components/Sidebar";
 import { placeholderTasks } from "./placeholderData";
 import { useTodo } from "./TodoContext";
+import TaskDetail from "./components/TaskDetail";
 
 const App: Component = () => {
-  const { setTaskLists, setTasks, taskListId, tasks } = useTodo();
+  const { setTaskLists, setTasks, taskListId, selectedTask } = useTodo();
 
   onMount(() => {
     (async () => {
@@ -25,8 +26,13 @@ const App: Component = () => {
   return (
     <div class="flex h-screen w-screen bg-neutral-900">
       <Sidebar />
-      <div class="flex-1 rounded-tl-md overflow-hidden">
-        <Content />
+      <div class="flex-1 rounded-tl-md overflow-hidden flex">
+        <div class="flex-1">
+          <TaskListContent />
+        </div>
+        <Show when={selectedTask()}>
+          {(task) => <TaskDetail task={task} />}
+        </Show>
       </div>
     </div>
   );

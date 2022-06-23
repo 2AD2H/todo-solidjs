@@ -1,5 +1,6 @@
 import {
   createContext,
+  createMemo,
   createSignal,
   ParentComponent,
   useContext,
@@ -20,6 +21,11 @@ export const makeTodoContext = () => {
 
   const taskIdsBeingAdded: { [id: number]: boolean } = {};
 
+  const [selectedTaskId, setSelectedTaskId] = createSignal<number | null>();
+  const selectedTask = createMemo(() =>
+    tasks.find((t) => t.id === selectedTaskId())
+  );
+
   return {
     taskLists,
     setTaskLists,
@@ -29,6 +35,9 @@ export const makeTodoContext = () => {
     tasks,
     setTasks,
     taskIdsBeingAdded,
+    selectedTaskId,
+    setSelectedTaskId,
+    selectedTask,
   };
 };
 

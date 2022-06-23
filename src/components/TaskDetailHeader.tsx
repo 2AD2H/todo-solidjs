@@ -7,7 +7,7 @@ type Props = {
   task: TaskType;
 };
 
-const Task: Component<Props> = (props) => {
+const TaskDetailHeader: Component<Props> = (props) => {
   const todo = useTodo();
   const { setSelectedTaskId } = todo;
 
@@ -21,7 +21,7 @@ const Task: Component<Props> = (props) => {
 
   return (
     <div
-      class="min-h-[3.5rem] w-full bg-neutral-700 flex px-4 py-2 gap-4 rounded-sm hover:bg-neutral-600"
+      class="min-h-[3.5rem] w-full bg-neutral-700 flex px-4 py-2 gap-4 rounded-sm"
       onClick={handleClickTask}
     >
       <div class="h-10 flex items-center">
@@ -32,9 +32,11 @@ const Task: Component<Props> = (props) => {
           onChange={handleToggleCheck}
         />
       </div>
-      <div class="flex-1 flex items-center">
-        <span class="text-white cursor-default">{props.task.name}</span>
-      </div>
+      <input
+        type="text"
+        class="bg-neutral-700 text-white cursor-text text-2xl border-0 flex-1 min-w-0 focus:ring-0"
+        value={props.task.name}
+      />
       <div class="h-10 flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -55,4 +57,4 @@ const Task: Component<Props> = (props) => {
   );
 };
 
-export default Task;
+export default TaskDetailHeader;
