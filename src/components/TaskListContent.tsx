@@ -11,7 +11,10 @@ const TaskListContent: Component = () => {
     e
   ) => {
     if (e.key !== "Enter" || e.currentTarget.value === "") return;
-    addTask({ id: 0, name: e.currentTarget.value, isChecked: false }, todo);
+    addTask(
+      { id: 0, name: e.currentTarget.value, isChecked: false, note: "" },
+      todo
+    );
     e.currentTarget.value = "";
   };
 

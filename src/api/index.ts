@@ -66,3 +66,20 @@ export const deleteTask = (taskId: number, ctx: TodoContextType) => {
 
   // TODO: Call the API to delete the task.
 };
+
+export const changeTaskNote = (
+  taskId: number,
+  newNote: string,
+  ctx: TodoContextType
+) => {
+  const { setTasks } = ctx;
+
+  // Optimistically update the task.
+  setTasks(
+    (needle) => needle.id === taskId,
+    "note",
+    (_) => newNote
+  );
+
+  // TODO: Call the API to update the task.
+};
