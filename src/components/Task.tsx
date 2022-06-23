@@ -37,7 +37,16 @@ const Task: Component<Props> = (props) => {
         />
       </div>
       <div class="flex-1 flex items-center">
-        <span class="text-white cursor-default">{props.task.name}</span>
+        <span
+          class="cursor-default"
+          classList={{
+            "line-through": props.task.isChecked,
+            "text-white": !props.task.isChecked,
+            "text-neutral-400": props.task.isChecked,
+          }}
+        >
+          {props.task.name}
+        </span>
       </div>
       <div class="h-10 flex items-center">
         <svg
