@@ -1,4 +1,4 @@
-import { Component, For, JSX } from "solid-js";
+import { Component, createSignal, For, JSX, Show } from "solid-js";
 import { addTask } from "../api";
 import { useTodo } from "../TodoContext";
 import Task from "./Task";
@@ -6,6 +6,12 @@ import Task from "./Task";
 const TaskListContent: Component = () => {
   const todo = useTodo();
   const { taskList, tasks } = todo;
+
+  const uncheckedTasks = () => tasks.filter((task) => !task.isChecked);
+  const checkedTasks = () => tasks.filter((task) => task.isChecked);
+
+  const [showCompleted, setShowCompleted] = createSignal<boolean>(true);
+  const handleToggleShowCompleted = () => setShowCompleted((prev) => !prev);
 
   const handleInputCommit: JSX.EventHandler<HTMLInputElement, KeyboardEvent> = (
     e
@@ -25,7 +31,18 @@ const TaskListContent: Component = () => {
       </div>
 
       <div class="w-full h-full pt-24 px-10 flex flex-col gap-1">
-        <For each={tasks}>{(task) => <Task task={task} />}</For>
+        <For each={uncheckedTasks()}>{(task) => <Task task={task} />}</For>
+
+        <button
+          class="text-white bg-neutral-700 py-1 px-2 self-start rounded-sm my-1"
+          onClick={handleToggleShowCompleted}
+        >
+          {showCompleted() ? "⬇️" : "➡️"} Completed
+        </button>
+
+        <Show when={showCompleted()}>
+          <For each={checkedTasks()}>{(task) => <Task task={task} />}</For>
+        </Show>
       </div>
 
       <div class="bg-neutral-900 absolute bottom-0 left-0 right-0 bg-opacity-60 px-10 pt-2 pb-10">
