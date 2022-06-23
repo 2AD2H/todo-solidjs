@@ -10,12 +10,17 @@ type Props = {
 const Task: Component<Props> = (props) => {
   const todo = useTodo();
 
-  const handleClickTask = () => {
-    todo?.setSelectedTaskId(props.task.id);
+  let checkboxRef: HTMLInputElement | undefined = undefined;
+  let favoriteRef: HTMLDivElement | undefined = undefined;
+
+  const handleClickTask: JSX.EventHandler<HTMLDivElement, MouseEvent> = (e) => {
+    if (e.target === checkboxRef || favoriteRef?.contains(e.target)) return;
+    todo?.setSelectedTaskId((prev) => (prev === null ? props.task.id : null));
   };
 
-  const handleToggleCheck: JSX.EventHandler<HTMLInputElement, Event> = () => {
+  const handleToggleCheck: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
     if (!todo) return;
+    e.stopPropagation();
     toggleTask(props.task, todo);
   };
 
@@ -30,6 +35,7 @@ const Task: Component<Props> = (props) => {
     >
       <div class="h-10 flex items-center">
         <input
+          ref={checkboxRef}
           type="checkbox"
           class="rounded-full"
           checked={props.task.isChecked}
@@ -48,7 +54,7 @@ const Task: Component<Props> = (props) => {
           {props.task.name}
         </span>
       </div>
-      <div class="h-10 flex items-center">
+      <div ref={favoriteRef} class="h-10 flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 text-white hover:text-indigo-500"
