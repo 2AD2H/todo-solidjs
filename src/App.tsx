@@ -10,8 +10,11 @@ import { useAuth0 } from "./Auth0Context";
 
 const App: Component = () => {
   const todo = useTodo();
+  const auth = useAuth0();
 
-  onMount(() => {
+  createEffect(() => {
+    if (!auth?.isAuthenticated()) return;
+
     (async () => {
       todo?.setTaskLists([
         { id: 1, name: "Task List 1" },
@@ -23,10 +26,9 @@ const App: Component = () => {
 
   // Change tasks when task list changes
   createEffect(() => {
+    if (!auth?.isAuthenticated()) return;
     todo?.setTasks(placeholderTasks[todo.taskListId() ?? "null"]);
   });
-
-  const auth = useAuth0();
 
   return (
     <div class="flex h-screen w-screen bg-neutral-900">

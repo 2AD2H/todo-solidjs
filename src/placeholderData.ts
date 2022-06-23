@@ -11,7 +11,7 @@ export const placeholderTasks: { [taskListId in number | "null"]: Task[] } = {
     {
       id: 21,
       name: "task 2",
-      isChecked: false,
+      isChecked: true,
       note: "",
     },
   ],
