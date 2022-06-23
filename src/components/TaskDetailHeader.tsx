@@ -32,7 +32,7 @@ const TaskDetailHeader: Component<Props> = (props) => {
       class="min-h-[3.5rem] w-full bg-neutral-700 flex px-4 py-2 gap-4 rounded-sm"
       onClick={handleClickTask}
     >
-      <div class="h-10 flex items-center">
+      <div class="h-12 flex items-center">
         <input
           type="checkbox"
           class="rounded-full"
@@ -46,7 +46,7 @@ const TaskDetailHeader: Component<Props> = (props) => {
         value={props.task.name}
         onKeyUp={handleInputCommit}
       />
-      <div class="h-10 flex items-center">
+      <div class="h-12 flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 text-white hover:text-indigo-500"
