@@ -57,3 +57,12 @@ export const renameTask = (
 
   // TODO: Call the API to update the task.
 };
+
+export const deleteTask = (taskId: number, ctx: TodoContextType) => {
+  const { setTasks } = ctx;
+
+  // Optimistically remove the task.
+  setTasks((tasks) => tasks.filter((task) => task.id != taskId));
+
+  // TODO: Call the API to delete the task.
+};
