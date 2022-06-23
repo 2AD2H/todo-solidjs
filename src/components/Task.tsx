@@ -9,13 +9,13 @@ type Props = {
 
 const Task: Component<Props> = (props) => {
   const todo = useTodo();
-  const { setSelectedTaskId, selectedTaskId } = todo;
 
   const handleClickTask = () => {
-    setSelectedTaskId(props.task.id);
+    todo?.setSelectedTaskId(props.task.id);
   };
 
   const handleToggleCheck: JSX.EventHandler<HTMLInputElement, Event> = () => {
+    if (!todo) return;
     toggleTask(props.task, todo);
   };
 
@@ -23,8 +23,8 @@ const Task: Component<Props> = (props) => {
     <div
       class="min-h-[3.5rem] w-full bg-neutral-700 flex px-4 py-2 gap-4 rounded-sm hover:bg-neutral-600"
       classList={{
-        "bg-neutral-700": selectedTaskId() !== props.task.id,
-        "bg-neutral-600": selectedTaskId() === props.task.id,
+        "bg-neutral-700": todo?.selectedTaskId() !== props.task.id,
+        "bg-neutral-600": todo?.selectedTaskId() === props.task.id,
       }}
       onClick={handleClickTask}
     >

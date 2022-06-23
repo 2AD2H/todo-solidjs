@@ -43,7 +43,7 @@ export const makeTodoContext = () => {
 
 export type TodoContextType = ReturnType<typeof makeTodoContext>;
 
-const TodoContext = createContext<TodoContextType>(makeTodoContext());
+const TodoContext = createContext<TodoContextType>();
 
 export const TodoProvider: ParentComponent = (props) => {
   return (

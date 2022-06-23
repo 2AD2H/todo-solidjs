@@ -4,7 +4,7 @@ import { useTodo } from "../TodoContext";
 import TaskListItem from "./TaskListItem";
 
 const Sidebar: Component = () => {
-  const { taskLists, taskListId } = useTodo();
+  const todo = useTodo();
   const auth = useAuth0();
 
   return (
@@ -25,18 +25,18 @@ const Sidebar: Component = () => {
         taskListId={null}
         icon="🏠"
         title="Tasks"
-        selected={taskListId() === null}
+        selected={todo?.taskListId() === null}
       />
 
       <hr class="border-neutral-600 m-1" />
 
-      <For each={taskLists}>
+      <For each={todo?.taskLists}>
         {(needle) => (
           <TaskListItem
             taskListId={needle.id}
             icon="💠"
             title={needle.name}
-            selected={taskListId() === needle.id}
+            selected={todo?.taskListId() === needle.id}
           />
         )}
       </For>

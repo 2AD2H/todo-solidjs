@@ -11,14 +11,14 @@ type Props = {
 
 const TaskDetail: Component<Props> = (props) => {
   const todo = useTodo();
-  const { setSelectedTaskId } = todo;
 
   const handleClose = () => {
-    setSelectedTaskId(null);
+    todo?.setSelectedTaskId(null);
   };
 
   const handleDelete = () => {
-    setSelectedTaskId(null);
+    if (!todo) return;
+    todo.setSelectedTaskId(null);
     deleteTask(props.task.id, todo);
   };
 
@@ -34,6 +34,7 @@ const TaskDetail: Component<Props> = (props) => {
     HTMLTextAreaElement,
     FocusEvent
   > = (e) => {
+    if (!todo) return;
     changeTaskNote(props.task.id, e.currentTarget.value, todo);
   };
 

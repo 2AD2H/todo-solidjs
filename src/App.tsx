@@ -9,11 +9,11 @@ import Loading from "./components/Loading";
 import { useAuth0 } from "./Auth0Context";
 
 const App: Component = () => {
-  const { setTaskLists, setTasks, taskListId, selectedTask } = useTodo();
+  const todo = useTodo();
 
   onMount(() => {
     (async () => {
-      setTaskLists([
+      todo?.setTaskLists([
         { id: 1, name: "Task List 1" },
         { id: 2, name: "Task List 2" },
         { id: 3, name: "Task List 3" },
@@ -23,7 +23,7 @@ const App: Component = () => {
 
   // Change tasks when task list changes
   createEffect(() => {
-    setTasks(placeholderTasks[taskListId() ?? "null"]);
+    todo?.setTasks(placeholderTasks[todo.taskListId() ?? "null"]);
   });
 
   const auth = useAuth0();
@@ -35,7 +35,7 @@ const App: Component = () => {
         <div class="flex-1">
           <TaskListContent />
         </div>
-        <Show when={selectedTask()}>
+        <Show when={todo?.selectedTask()}>
           {(task) => <TaskDetail task={task} />}
         </Show>
       </div>

@@ -9,10 +9,10 @@ type Props = {
 };
 
 const TaskListItem: Component<Props> = (props) => {
-  const { setTaskListId } = useTodo();
+  const todo = useTodo();
 
   const handleClick = () => {
-    setTaskListId(props.taskListId);
+    todo?.setTaskListId(props.taskListId);
   };
 
   return (

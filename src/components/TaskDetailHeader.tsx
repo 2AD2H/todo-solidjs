@@ -9,20 +9,20 @@ type Props = {
 
 const TaskDetailHeader: Component<Props> = (props) => {
   const todo = useTodo();
-  const { setSelectedTaskId } = todo;
 
   const handleClickTask = () => {
-    setSelectedTaskId(props.task.id);
+    todo?.setSelectedTaskId(props.task.id);
   };
 
   const handleToggleCheck: JSX.EventHandler<HTMLInputElement, Event> = () => {
+    if (!todo) return;
     toggleTask(props.task, todo);
   };
 
   const handleInputCommit: JSX.EventHandler<HTMLInputElement, KeyboardEvent> = (
     e
   ) => {
-    if (e.key !== "Enter" || e.currentTarget.value === "") return;
+    if (e.key !== "Enter" || e.currentTarget.value === "" || !todo) return;
     renameTask(props.task.id, e.currentTarget.value, todo);
     e.currentTarget.blur();
   };
