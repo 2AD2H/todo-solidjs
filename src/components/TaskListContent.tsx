@@ -9,6 +9,7 @@ const TaskListContent: Component = () => {
 
   const uncheckedTasks = () => tasks.filter((task) => !task.isChecked);
   const checkedTasks = () => tasks.filter((task) => task.isChecked);
+  const checkedTasksCount = () => checkedTasks().length;
 
   const [showCompleted, setShowCompleted] = createSignal<boolean>(true);
   const handleToggleShowCompleted = () => setShowCompleted((prev) => !prev);
@@ -34,10 +35,12 @@ const TaskListContent: Component = () => {
         <For each={uncheckedTasks()}>{(task) => <Task task={task} />}</For>
 
         <button
-          class="text-white bg-neutral-700 py-1 px-2 self-start rounded-sm my-1"
+          class="text-white bg-neutral-700 py-1 px-2 self-start rounded-sm my-1 flex gap-3"
           onClick={handleToggleShowCompleted}
         >
-          {showCompleted() ? "⬇️" : "➡️"} Completed
+          <span>{showCompleted() ? "⬇️" : "➡️"}</span>
+          <span>Completed</span>
+          <span>{checkedTasksCount}</span>
         </button>
 
         <Show when={showCompleted()}>
