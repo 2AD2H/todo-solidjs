@@ -9,7 +9,7 @@ type Props = {
 
 const Task: Component<Props> = (props) => {
   const todo = useTodo();
-  const { setSelectedTaskId } = todo;
+  const { setSelectedTaskId, selectedTaskId } = todo;
 
   const handleClickTask = () => {
     setSelectedTaskId(props.task.id);
@@ -22,6 +22,10 @@ const Task: Component<Props> = (props) => {
   return (
     <div
       class="min-h-[3.5rem] w-full bg-neutral-700 flex px-4 py-2 gap-4 rounded-sm hover:bg-neutral-600"
+      classList={{
+        "bg-neutral-700": selectedTaskId() !== props.task.id,
+        "bg-neutral-600": selectedTaskId() === props.task.id,
+      }}
       onClick={handleClickTask}
     >
       <div class="h-10 flex items-center">
