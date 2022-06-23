@@ -4,6 +4,9 @@ import Sidebar from "./components/Sidebar";
 import { placeholderTasks } from "./placeholderData";
 import { useTodo } from "./TodoContext";
 import TaskDetail from "./components/TaskDetail";
+import { Portal } from "solid-js/web";
+import Loading from "./components/Loading";
+import { useAuth0 } from "./Auth0Context";
 
 const App: Component = () => {
   const { setTaskLists, setTasks, taskListId, selectedTask } = useTodo();
@@ -23,6 +26,8 @@ const App: Component = () => {
     setTasks(placeholderTasks[taskListId() ?? "null"]);
   });
 
+  const auth = useAuth0();
+
   return (
     <div class="flex h-screen w-screen bg-neutral-900">
       <Sidebar />
@@ -34,6 +39,12 @@ const App: Component = () => {
           {(task) => <TaskDetail task={task} />}
         </Show>
       </div>
+      <Portal>
+        {/* Show loading when Auth0 is initializing. */}
+        <Show when={!auth?.isInitialized()}>
+          <Loading />
+        </Show>
+      </Portal>
     </div>
   );
 };
