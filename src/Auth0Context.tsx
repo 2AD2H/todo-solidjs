@@ -16,6 +16,7 @@ type ProviderProps = {
   domain: Auth0ClientOptions["domain"];
   client_id: Auth0ClientOptions["client_id"];
   redirect_uri: Auth0ClientOptions["redirect_uri"];
+  audience: Auth0ClientOptions["audience"];
   logoutRedirectUri: string;
 };
 
@@ -25,6 +26,7 @@ const makeAuth0Context = (props: ProviderProps) => {
       domain: props.domain,
       client_id: props.client_id,
       redirect_uri: props.redirect_uri,
+      audience: props.audience,
     });
 
     return auth0;

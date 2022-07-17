@@ -1,5 +1,7 @@
 import { TodoContextType } from "../TodoContext";
-import { Task } from "../types";
+import { Task, TaskList } from "../types";
+
+const api = import.meta.env.VITE_TODO_API ?? "";
 
 let addTaskInc = 0;
 
@@ -82,4 +84,13 @@ export const changeTaskNote = (
   );
 
   // TODO: Call the API to update the task.
+};
+
+export const getTaskLists = async (token: string): Promise<TaskList[]> => {
+  const res = await fetch(`${api}/api/TaskLists`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return await res.json();
 };

@@ -1,12 +1,13 @@
-import { Component, createEffect, onMount, Show } from "solid-js";
-import TaskListContent from "./components/TaskListContent";
+import { Component, createEffect, Show } from "solid-js";
+import { Portal } from "solid-js/web";
+import { getTaskLists } from "./api";
+import { useAuth0 } from "./Auth0Context";
+import Loading from "./components/Loading";
 import Sidebar from "./components/Sidebar";
+import TaskDetail from "./components/TaskDetail";
+import TaskListContent from "./components/TaskListContent";
 import { placeholderTasks } from "./placeholderData";
 import { useTodo } from "./TodoContext";
-import TaskDetail from "./components/TaskDetail";
-import { Portal } from "solid-js/web";
-import Loading from "./components/Loading";
-import { useAuth0 } from "./Auth0Context";
 
 const App: Component = () => {
   const todo = useTodo();
@@ -16,11 +17,10 @@ const App: Component = () => {
     if (!auth?.isAuthenticated()) return;
 
     (async () => {
-      todo?.setTaskLists([
-        { id: 1, name: "Task List 1" },
-        { id: 2, name: "Task List 2" },
-        { id: 3, name: "Task List 3" },
-      ]);
+      const token = await auth.getToken();
+      console.log(token);
+      if (!token) return;
+      todo?.setTaskLists(await getTaskLists(token));
     })();
   });
 
