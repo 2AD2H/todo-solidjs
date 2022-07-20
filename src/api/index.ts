@@ -1,3 +1,4 @@
+import { Auth0ContextType } from "../Auth0Context";
 import { TodoContextType } from "../TodoContext";
 import { Task, TaskList } from "../types";
 
@@ -5,8 +6,17 @@ const api = import.meta.env.VITE_TODO_API ?? "";
 
 let addTaskInc = 0;
 
-export const addTask = (task: Task, ctx: TodoContextType) => {
-  const { setTasks, taskIdsBeingAdded, tasks } = ctx;
+type ApiRequestContext = {
+  todo: TodoContextType;
+  auth: Auth0ContextType;
+};
+
+export const addTask = async (task: Task, ctx: ApiRequestContext) => {
+  const { setTasks, taskIdsBeingAdded, tasks, taskListId } = ctx.todo;
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
+
+  task.listId = taskListId();
 
   // We'll need to keep track of this new task to set the task ID
   // asynchronously, so we'll make a new copy of the task.
@@ -19,15 +29,22 @@ export const addTask = (task: Task, ctx: TodoContextType) => {
   taskIdsBeingAdded[newTask.id] = true;
 
   // Simulate the API call to create the task.
-  // TODO: Replace this with a real API call.
-  new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
-    delete taskIdsBeingAdded[newTask.id];
-    setTasks(
-      (task) => task.id === newTask.id,
-      "id",
-      (_) => 12345
-    );
+  const res = await fetch(`${api}/api/Tasks`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
   });
+  const newTaskFromApi: Task = await res.json();
+
+  delete taskIdsBeingAdded[newTask.id];
+  setTasks(
+    (task) => task.id === newTask.id,
+    "id",
+    (_) => newTaskFromApi.id
+  );
 };
 
 export const toggleTask = (task: Task, ctx: TodoContextType) => {
@@ -86,7 +103,12 @@ export const changeTaskNote = (
   // TODO: Call the API to update the task.
 };
 
-export const getTaskLists = async (token: string): Promise<TaskList[]> => {
+export const getTaskLists = async (
+  ctx: ApiRequestContext
+): Promise<TaskList[]> => {
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
+
   const res = await fetch(`${api}/api/TaskLists`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -95,9 +117,12 @@ export const getTaskLists = async (token: string): Promise<TaskList[]> => {
   return await res.json();
 };
 
-export const newTaskList = async (token: string) => {
+export const newTaskList = async (ctx: ApiRequestContext) => {
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
+
   let newTaskListName: string;
-  const taskLists = await getTaskLists(token);
+  const taskLists = ctx.todo.taskLists;
   for (let i = 1; ; i++) {
     newTaskListName = `Untitled list ${i}`;
     // If task list is not found, we can create it.
@@ -117,7 +142,13 @@ export const newTaskList = async (token: string) => {
   });
 };
 
-export const deleteTaskList = async (taskListId: number, token: string) => {
+export const deleteTaskList = async (
+  taskListId: number,
+  ctx: ApiRequestContext
+) => {
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
+
   await fetch(`${api}/api/TaskLists/${taskListId}`, {
     method: "DELETE",
     headers: {
@@ -128,8 +159,11 @@ export const deleteTaskList = async (taskListId: number, token: string) => {
 
 export const getTasks = async (
   taskListId: number,
-  token: string
+  ctx: ApiRequestContext
 ): Promise<Task[]> => {
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
+
   const res = await fetch(`${api}/api/Tasks/${taskListId}`, {
     headers: {
       Authorization: `Bearer ${token}`,

@@ -16,7 +16,7 @@ const MenuDropdown: Component<{
     if (!id) return;
     todo.setTaskListId(null);
     todo.setTaskLists((list) => list.filter((taskList) => taskList.id !== id));
-    await deleteTaskList(id, (await auth.getToken()) ?? "");
+    await deleteTaskList(id, { auth, todo });
   };
 
   return (

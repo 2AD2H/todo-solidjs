@@ -2,7 +2,8 @@ export type Task = {
   id: number;
   name: string;
   isCompleted: boolean;
-  note: string;
+  note?: string;
+  listId?: number | null;
 };
 
 export type TaskList = {

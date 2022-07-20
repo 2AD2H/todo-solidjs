@@ -6,7 +6,6 @@ import Loading from "./components/Loading";
 import Sidebar from "./components/Sidebar";
 import TaskDetail from "./components/TaskDetail";
 import TaskListContent from "./components/TaskListContent";
-import { placeholderTasks } from "./placeholderData";
 import { useTodo } from "./TodoContext";
 
 const App: Component = () => {
@@ -14,10 +13,10 @@ const App: Component = () => {
   const auth = useAuth0();
 
   createEffect(() => {
-    if (!auth?.isAuthenticated()) return;
+    if (!auth.isAuthenticated()) return;
 
     (async () => {
-      todo?.setTaskLists(await getTaskLists((await auth.getToken()) ?? ""));
+      todo.setTaskLists(await getTaskLists({ auth, todo }));
     })();
   });
 
@@ -28,7 +27,7 @@ const App: Component = () => {
     (async () => {
       const id = todo.taskListId();
       if (!id) return;
-      todo.setTasks(await getTasks(id, (await auth.getToken()) ?? ""));
+      todo.setTasks(await getTasks(id, { auth, todo }));
     })();
   });
 

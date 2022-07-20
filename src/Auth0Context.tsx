@@ -84,7 +84,7 @@ const makeAuth0Context = (props: ProviderProps) => {
   };
 };
 
-type Auth0ContextType = ReturnType<typeof makeAuth0Context>;
+export type Auth0ContextType = ReturnType<typeof makeAuth0Context>;
 
 const Auth0Context = createContext<Auth0ContextType>();
 

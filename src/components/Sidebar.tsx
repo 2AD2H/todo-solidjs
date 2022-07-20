@@ -9,8 +9,8 @@ const Sidebar: Component = () => {
   const auth = useAuth0();
 
   const handleAddTaskList = async () => {
-    await newTaskList((await auth.getToken()) ?? "");
-    todo.setTaskLists(await getTaskLists((await auth.getToken()) ?? ""));
+    await newTaskList({ auth, todo });
+    todo.setTaskLists(await getTaskLists({ auth, todo }));
     // TODO: rename the new task list
   };
 

@@ -1,10 +1,12 @@
 import { Component, createSignal, For, JSX, Show } from "solid-js";
 import { addTask } from "../../api";
+import { useAuth0 } from "../../Auth0Context";
 import { useTodo } from "../../TodoContext";
 import Task from "../Task";
 import MenuDropdown from "./MenuDropdown";
 
 const TaskListContent: Component = () => {
+  const auth = useAuth0();
   const todo = useTodo();
 
   const uncheckedTasks = () => todo?.tasks.filter((task) => !task.isCompleted);
@@ -18,10 +20,15 @@ const TaskListContent: Component = () => {
     e
   ) => {
     if (e.key !== "Enter" || e.currentTarget.value === "" || !todo) return;
-    addTask(
-      { id: 0, name: e.currentTarget.value, isCompleted: false, note: "" },
-      todo
-    );
+    (async () => {
+      addTask(
+        { id: 0, name: e.currentTarget.value, isCompleted: false },
+        {
+          auth,
+          todo,
+        }
+      );
+    })();
     e.currentTarget.value = "";
   };
 
