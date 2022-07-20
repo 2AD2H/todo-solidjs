@@ -94,3 +94,25 @@ export const getTaskLists = async (token: string): Promise<TaskList[]> => {
   });
   return await res.json();
 };
+
+export const newTaskList = async (token: string) => {
+  let newTaskListName: string;
+  const taskLists = await getTaskLists(token);
+  for (let i = 0; ; i++) {
+    newTaskListName = `Untitled list ${i}`;
+    // If task list is not found, we can create it.
+    if (!taskLists.find((taskList) => taskList.name === newTaskListName)) {
+      break;
+    }
+  }
+  await fetch(`${api}/api/TaskLists`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: newTaskListName,
+    }),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+};

@@ -64,7 +64,11 @@ const makeAuth0Context = (props: ProviderProps) => {
     })();
   });
 
-  const getToken = () => auth0()?.getTokenSilently();
+  const getToken = async () => {
+    const auth = auth0();
+    if (!auth) return;
+    return await auth.getTokenSilently();
+  };
 
   const isInitialized = () => user() !== undefined;
   const isAuthenticated = () => !!user();
@@ -92,7 +96,13 @@ export const Auth0Provider: ParentComponent<ProviderProps> = (props) => {
   );
 };
 
-export const useAuth0 = () => useContext(Auth0Context);
+export const useAuth0 = () => {
+  const auth = useContext(Auth0Context);
+  if (!auth) {
+    throw new Error("useAuth0 must be used within an Auth0Provider");
+  }
+  return auth;
+};
 
 function isRedirect(url: string) {
   const [, query] = url.split("?");

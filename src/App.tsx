@@ -17,10 +17,7 @@ const App: Component = () => {
     if (!auth?.isAuthenticated()) return;
 
     (async () => {
-      const token = await auth.getToken();
-      console.log(token);
-      if (!token) return;
-      todo?.setTaskLists(await getTaskLists(token));
+      todo?.setTaskLists(await getTaskLists((await auth.getToken()) ?? ""));
     })();
   });
 

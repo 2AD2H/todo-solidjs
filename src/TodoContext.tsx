@@ -53,4 +53,8 @@ export const TodoProvider: ParentComponent = (props) => {
   );
 };
 
-export const useTodo = () => useContext(TodoContext);
+export const useTodo = () => {
+  const todo = useContext(TodoContext);
+  if (!todo) throw new Error("useTodo must be used within a TodoProvider");
+  return todo;
+};
