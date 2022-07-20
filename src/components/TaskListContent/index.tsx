@@ -36,8 +36,8 @@ const TaskListContent: Component = () => {
   const [showMenu, setShowMenu] = createSignal(false);
 
   return () => (
-    <div class="bg-neutral-900 h-full relative text-white">
-      <div class="absolute top-0 left-0 right-0 bg-neutral-900 bg-opacity-60 pt-8 px-10 pb-4 flex justify-between">
+    <div class="bg-neutral-900 h-full relative text-white overflow-y-auto flex flex-col">
+      <div class="sticky top-0 left-0 right-0 bg-neutral-900 bg-opacity-60 pt-8 px-10 pb-4 flex justify-between">
         <h1 class="text-3xl font-medium text-indigo-400">
           {todo?.taskList().name}
         </h1>
@@ -64,7 +64,7 @@ const TaskListContent: Component = () => {
         </div>
       </div>
 
-      <div class="w-full h-full pt-24 px-10 flex flex-col gap-1">
+      <div class="w-full px-10 flex flex-col gap-1 flex-1">
         <For each={uncheckedTasks()}>{(task) => <Task task={task} />}</For>
 
         <button
@@ -81,7 +81,7 @@ const TaskListContent: Component = () => {
         </Show>
       </div>
 
-      <div class="bg-neutral-900 absolute bottom-0 left-0 right-0 bg-opacity-60 px-10 pt-2 pb-10">
+      <div class="bg-neutral-900 sticky bottom-0 left-0 right-0 bg-opacity-60 px-10 pt-2 pb-10">
         <div class="w-full bg-neutral-700 h-14 flex items-center rounded-sm">
           <span class="px-3">➕</span>
           <input
