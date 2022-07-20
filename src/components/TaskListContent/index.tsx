@@ -7,8 +7,8 @@ import MenuDropdown from "./MenuDropdown";
 const TaskListContent: Component = () => {
   const todo = useTodo();
 
-  const uncheckedTasks = () => todo?.tasks.filter((task) => !task.isChecked);
-  const checkedTasks = () => todo?.tasks.filter((task) => task.isChecked);
+  const uncheckedTasks = () => todo?.tasks.filter((task) => !task.isCompleted);
+  const checkedTasks = () => todo?.tasks.filter((task) => task.isCompleted);
   const checkedTasksCount = () => checkedTasks()?.length;
 
   const [showCompleted, setShowCompleted] = createSignal<boolean>(true);
@@ -19,7 +19,7 @@ const TaskListContent: Component = () => {
   ) => {
     if (e.key !== "Enter" || e.currentTarget.value === "" || !todo) return;
     addTask(
-      { id: 0, name: e.currentTarget.value, isChecked: false, note: "" },
+      { id: 0, name: e.currentTarget.value, isCompleted: false, note: "" },
       todo
     );
     e.currentTarget.value = "";

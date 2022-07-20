@@ -38,7 +38,7 @@ const Task: Component<Props> = (props) => {
           ref={checkboxRef}
           type="checkbox"
           class="rounded-full"
-          checked={props.task.isChecked}
+          checked={props.task.isCompleted}
           onChange={handleToggleCheck}
         />
       </div>
@@ -46,9 +46,9 @@ const Task: Component<Props> = (props) => {
         <span
           class="cursor-default"
           classList={{
-            "line-through": props.task.isChecked,
-            "text-white": !props.task.isChecked,
-            "text-neutral-400": props.task.isChecked,
+            "line-through": props.task.isCompleted,
+            "text-white": !props.task.isCompleted,
+            "text-neutral-400": props.task.isCompleted,
           }}
         >
           {props.task.name}

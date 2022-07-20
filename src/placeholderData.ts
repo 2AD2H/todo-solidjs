@@ -5,13 +5,13 @@ export const placeholderTasks: { [taskListId in number | "null"]: Task[] } = {
     {
       id: 20,
       name: "task 1",
-      isChecked: false,
+      isCompleted: false,
       note: "",
     },
     {
       id: 21,
       name: "task 2",
-      isChecked: true,
+      isCompleted: true,
       note: "",
     },
   ],
@@ -19,13 +19,13 @@ export const placeholderTasks: { [taskListId in number | "null"]: Task[] } = {
     {
       id: 50,
       name: "lorem ipsum",
-      isChecked: false,
+      isCompleted: false,
       note: "",
     },
     {
       id: 23,
       name: "hello world",
-      isChecked: false,
+      isCompleted: false,
       note: "",
     },
   ],
@@ -34,7 +34,7 @@ export const placeholderTasks: { [taskListId in number | "null"]: Task[] } = {
     {
       id: 100,
       name: "shopping due today",
-      isChecked: false,
+      isCompleted: false,
       note: "",
     },
   ],

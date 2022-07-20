@@ -1,6 +1,6 @@
 import { Component, createEffect, Show } from "solid-js";
 import { Portal } from "solid-js/web";
-import { getTaskLists } from "./api";
+import { getTaskLists, getTasks } from "./api";
 import { useAuth0 } from "./Auth0Context";
 import Loading from "./components/Loading";
 import Sidebar from "./components/Sidebar";
@@ -23,8 +23,13 @@ const App: Component = () => {
 
   // Change tasks when task list changes
   createEffect(() => {
-    if (!auth?.isAuthenticated()) return;
-    todo?.setTasks(placeholderTasks[todo.taskListId() ?? "null"]);
+    if (!auth.isAuthenticated()) return;
+    todo.setTasks([]);
+    (async () => {
+      const id = todo.taskListId();
+      if (!id) return;
+      todo.setTasks(await getTasks(id, (await auth.getToken()) ?? ""));
+    })();
   });
 
   return (

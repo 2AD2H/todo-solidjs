@@ -36,7 +36,7 @@ const TaskDetailHeader: Component<Props> = (props) => {
         <input
           type="checkbox"
           class="rounded-full"
-          checked={props.task.isChecked}
+          checked={props.task.isCompleted}
           onChange={handleToggleCheck}
         />
       </div>

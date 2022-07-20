@@ -36,8 +36,8 @@ export const toggleTask = (task: Task, ctx: TodoContextType) => {
   // Optimistically update the task.
   setTasks(
     (needle) => needle.id === task.id,
-    "isChecked",
-    (isChecked) => !isChecked
+    "isCompleted",
+    (isCompleted) => !isCompleted
   );
 
   // TODO: Call the API to update the task.
@@ -124,4 +124,16 @@ export const deleteTaskList = async (taskListId: number, token: string) => {
       Authorization: `Bearer ${token}`,
     },
   });
+};
+
+export const getTasks = async (
+  taskListId: number,
+  token: string
+): Promise<Task[]> => {
+  const res = await fetch(`${api}/api/Tasks/${taskListId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return await res.json();
 };
