@@ -84,7 +84,7 @@ export const renameTask = async (
     (_) => newTaskName
   );
 
-  await fetch(`${api}/api/Tasks`, {
+  await fetch(`${api}/api/Tasks/${taskId}`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
