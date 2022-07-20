@@ -98,7 +98,7 @@ export const getTaskLists = async (token: string): Promise<TaskList[]> => {
 export const newTaskList = async (token: string) => {
   let newTaskListName: string;
   const taskLists = await getTaskLists(token);
-  for (let i = 0; ; i++) {
+  for (let i = 1; ; i++) {
     newTaskListName = `Untitled list ${i}`;
     // If task list is not found, we can create it.
     if (!taskLists.find((taskList) => taskList.name === newTaskListName)) {
@@ -113,6 +113,15 @@ export const newTaskList = async (token: string) => {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
+    },
+  });
+};
+
+export const deleteTaskList = async (taskListId: number, token: string) => {
+  await fetch(`${api}/api/TaskLists/${taskListId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
   });
 };

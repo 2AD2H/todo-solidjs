@@ -12,7 +12,7 @@ const TaskListItem: Component<Props> = (props) => {
   const todo = useTodo();
 
   const handleClick = () => {
-    todo?.setTaskListId(props.taskListId);
+    todo.setTaskListId(props.taskListId);
   };
 
   return (
