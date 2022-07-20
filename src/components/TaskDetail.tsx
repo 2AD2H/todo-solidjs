@@ -1,5 +1,6 @@
 import { Component, JSX } from "solid-js";
 import { changeTaskNote, deleteTask } from "../api";
+import { useAuth0 } from "../Auth0Context";
 import { useTodo } from "../TodoContext";
 import { Task as TaskType } from "../types";
 import TaskDetailButton from "./TaskDetailButton";
@@ -11,6 +12,7 @@ type Props = {
 
 const TaskDetail: Component<Props> = (props) => {
   const todo = useTodo();
+  const auth = useAuth0();
 
   const handleClose = () => {
     todo?.setSelectedTaskId(null);
@@ -19,7 +21,7 @@ const TaskDetail: Component<Props> = (props) => {
   const handleDelete = () => {
     if (!todo) return;
     todo.setSelectedTaskId(null);
-    deleteTask(props.task.id, todo);
+    deleteTask(props.task.id, { todo, auth });
   };
 
   const handleNoteInput: JSX.EventHandler<HTMLTextAreaElement, InputEvent> = (
@@ -35,7 +37,7 @@ const TaskDetail: Component<Props> = (props) => {
     FocusEvent
   > = (e) => {
     if (!todo) return;
-    changeTaskNote(props.task.id, e.currentTarget.value, todo);
+    changeTaskNote(props.task.id, e.currentTarget.value, { todo, auth });
   };
 
   return (

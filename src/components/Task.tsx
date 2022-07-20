@@ -1,5 +1,6 @@
 import { Component, JSX } from "solid-js";
 import { toggleTask } from "../api";
+import { useAuth0 } from "../Auth0Context";
 import { useTodo } from "../TodoContext";
 import { Task as TaskType } from "../types";
 
@@ -9,6 +10,7 @@ type Props = {
 
 const Task: Component<Props> = (props) => {
   const todo = useTodo();
+  const auth = useAuth0();
 
   let checkboxRef: HTMLInputElement | undefined = undefined;
   let favoriteRef: HTMLDivElement | undefined = undefined;
@@ -21,7 +23,7 @@ const Task: Component<Props> = (props) => {
   const handleToggleCheck: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
     if (!todo) return;
     e.stopPropagation();
-    toggleTask(props.task, todo);
+    toggleTask(props.task, { todo, auth });
   };
 
   return (

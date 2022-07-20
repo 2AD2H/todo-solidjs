@@ -16,8 +16,6 @@ export const addTask = async (task: Task, ctx: ApiRequestContext) => {
   const token = await ctx.auth.getToken();
   if (!token) throw new Error("No token");
 
-  task.listId = taskListId();
-
   // We'll need to keep track of this new task to set the task ID
   // asynchronously, so we'll make a new copy of the task.
   const newTask = { ...task, id: Number.MAX_SAFE_INTEGER - addTaskInc };
@@ -29,7 +27,7 @@ export const addTask = async (task: Task, ctx: ApiRequestContext) => {
   taskIdsBeingAdded[newTask.id] = true;
 
   // Simulate the API call to create the task.
-  const res = await fetch(`${api}/api/Tasks`, {
+  const res = await fetch(`${api}/api/Tasks/${taskListId()}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -47,25 +45,37 @@ export const addTask = async (task: Task, ctx: ApiRequestContext) => {
   );
 };
 
-export const toggleTask = (task: Task, ctx: TodoContextType) => {
-  const { setTasks } = ctx;
+export const toggleTask = async (task: Task, ctx: ApiRequestContext) => {
+  const { setTasks } = ctx.todo;
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
 
   // Optimistically update the task.
+  const newCompleted = !task.isCompleted;
   setTasks(
     (needle) => needle.id === task.id,
     "isCompleted",
-    (isCompleted) => !isCompleted
+    (_) => newCompleted
   );
 
-  // TODO: Call the API to update the task.
+  await fetch(`${api}/api/Tasks/${task.id}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ isCompleted: newCompleted }),
+  });
 };
 
-export const renameTask = (
+export const renameTask = async (
   taskId: number,
   newTaskName: string,
-  ctx: TodoContextType
+  ctx: ApiRequestContext
 ) => {
-  const { setTasks } = ctx;
+  const { setTasks } = ctx.todo;
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
 
   // Optimistically update the task.
   setTasks(
@@ -74,24 +84,40 @@ export const renameTask = (
     (_) => newTaskName
   );
 
-  // TODO: Call the API to update the task.
+  await fetch(`${api}/api/Tasks`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: taskId, name: newTaskName }),
+  });
 };
 
-export const deleteTask = (taskId: number, ctx: TodoContextType) => {
-  const { setTasks } = ctx;
+export const deleteTask = async (taskId: number, ctx: ApiRequestContext) => {
+  const { setTasks } = ctx.todo;
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
 
   // Optimistically remove the task.
   setTasks((tasks) => tasks.filter((task) => task.id != taskId));
 
-  // TODO: Call the API to delete the task.
+  await fetch(`${api}/api/Tasks/${taskId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
-export const changeTaskNote = (
+export const changeTaskNote = async (
   taskId: number,
   newNote: string,
-  ctx: TodoContextType
+  ctx: ApiRequestContext
 ) => {
-  const { setTasks } = ctx;
+  const { setTasks } = ctx.todo;
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
 
   // Optimistically update the task.
   setTasks(
@@ -100,7 +126,14 @@ export const changeTaskNote = (
     (_) => newNote
   );
 
-  // TODO: Call the API to update the task.
+  await fetch(`${api}/api/Tasks/${taskId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ note: newNote }),
+  });
 };
 
 export const getTaskLists = async (
@@ -158,16 +191,19 @@ export const deleteTaskList = async (
 };
 
 export const getTasks = async (
-  taskListId: number,
+  taskListId: number | null,
   ctx: ApiRequestContext
 ): Promise<Task[]> => {
   const token = await ctx.auth.getToken();
   if (!token) throw new Error("No token");
 
-  const res = await fetch(`${api}/api/Tasks/${taskListId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(
+    taskListId ? `${api}/api/Tasks/${taskListId}` : `${api}/api/Tasks`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return await res.json();
 };

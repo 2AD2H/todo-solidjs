@@ -1,5 +1,6 @@
 import { Component, JSX } from "solid-js";
 import { renameTask, toggleTask } from "../api";
+import { useAuth0 } from "../Auth0Context";
 import { useTodo } from "../TodoContext";
 import { Task as TaskType } from "../types";
 
@@ -9,6 +10,7 @@ type Props = {
 
 const TaskDetailHeader: Component<Props> = (props) => {
   const todo = useTodo();
+  const auth = useAuth0();
 
   const handleClickTask = () => {
     todo?.setSelectedTaskId(props.task.id);
@@ -16,14 +18,14 @@ const TaskDetailHeader: Component<Props> = (props) => {
 
   const handleToggleCheck: JSX.EventHandler<HTMLInputElement, Event> = () => {
     if (!todo) return;
-    toggleTask(props.task, todo);
+    toggleTask(props.task, { todo, auth });
   };
 
   const handleInputCommit: JSX.EventHandler<HTMLInputElement, KeyboardEvent> = (
     e
   ) => {
     if (e.key !== "Enter" || e.currentTarget.value === "" || !todo) return;
-    renameTask(props.task.id, e.currentTarget.value, todo);
+    renameTask(props.task.id, e.currentTarget.value, { todo, auth });
     e.currentTarget.blur();
   };
 

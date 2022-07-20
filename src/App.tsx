@@ -26,7 +26,6 @@ const App: Component = () => {
     todo.setTasks([]);
     (async () => {
       const id = todo.taskListId();
-      if (!id) return;
       todo.setTasks(await getTasks(id, { auth, todo }));
     })();
   });
