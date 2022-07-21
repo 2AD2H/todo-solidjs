@@ -4,6 +4,7 @@ export type Task = {
   isCompleted: boolean;
   note?: string;
   listId?: number | null;
+  isImportant: boolean;
 };
 
 export type TaskList = {
