@@ -213,8 +213,15 @@ export const renameTaskList = async (
   newName: string,
   ctx: ApiRequestContext
 ) => {
+  const { setTaskLists } = ctx.todo;
   const token = await ctx.auth.getToken();
   if (!token) throw new Error("No token");
+
+  setTaskLists(
+    (needle) => needle.id === taskListId,
+    "name",
+    (_) => newName
+  );
 
   await fetch(`${api}/api/TaskLists/${taskListId}`, {
     method: "PUT",
