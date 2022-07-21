@@ -1,5 +1,5 @@
 import { Component, createSignal, For, JSX, Show } from "solid-js";
-import { addTask, renameTaskList } from "../../api";
+import { addTask, updateTaskList } from "../../api";
 import { useAuth0 } from "../../Auth0Context";
 import { useTodo } from "../../TodoContext";
 import Task from "../Task";
@@ -43,7 +43,10 @@ const TaskListContent: Component = () => {
     if (e.key !== "Enter" || e.currentTarget.value === "") return;
     const taskListId = todo.taskListId();
     if (!taskListId) return;
-    renameTaskList(taskListId, e.currentTarget.value, { todo, auth });
+    updateTaskList(
+      { id: taskListId, name: e.currentTarget.value },
+      { todo, auth }
+    );
     e.currentTarget.blur();
   };
 

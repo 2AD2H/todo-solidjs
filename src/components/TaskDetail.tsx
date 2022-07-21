@@ -1,5 +1,5 @@
 import { Component, JSX } from "solid-js";
-import { changeTaskNote, deleteTask } from "../api";
+import { deleteTask, updateTask } from "../api";
 import { useAuth0 } from "../Auth0Context";
 import { useTodo } from "../TodoContext";
 import { Task as TaskType } from "../types";
@@ -37,7 +37,10 @@ const TaskDetail: Component<Props> = (props) => {
     FocusEvent
   > = (e) => {
     if (!todo) return;
-    changeTaskNote(props.task.id, e.currentTarget.value, { todo, auth });
+    updateTask(
+      { id: props.task.id, note: e.currentTarget.value },
+      { todo, auth }
+    );
   };
 
   return (

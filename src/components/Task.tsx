@@ -1,5 +1,5 @@
 import { Component, JSX } from "solid-js";
-import { toggleTask } from "../api";
+import { updateTask } from "../api";
 import { useAuth0 } from "../Auth0Context";
 import { useTodo } from "../TodoContext";
 import { Task as TaskType } from "../types";
@@ -23,7 +23,10 @@ const Task: Component<Props> = (props) => {
   const handleToggleCheck: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
     if (!todo) return;
     e.stopPropagation();
-    toggleTask(props.task, { todo, auth });
+    updateTask(
+      { id: props.task.id, isCompleted: !props.task.isCompleted },
+      { todo, auth }
+    );
   };
 
   return (

@@ -45,55 +45,6 @@ export const addTask = async (task: Task, ctx: ApiRequestContext) => {
   );
 };
 
-export const toggleTask = async (task: Task, ctx: ApiRequestContext) => {
-  const { setTasks } = ctx.todo;
-  const token = await ctx.auth.getToken();
-  if (!token) throw new Error("No token");
-
-  // Optimistically update the task.
-  const newCompleted = !task.isCompleted;
-  setTasks(
-    (needle) => needle.id === task.id,
-    "isCompleted",
-    (_) => newCompleted
-  );
-
-  await fetch(`${api}/api/Tasks/${task.id}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ isCompleted: newCompleted }),
-  });
-};
-
-export const renameTask = async (
-  taskId: number,
-  newTaskName: string,
-  ctx: ApiRequestContext
-) => {
-  const { setTasks } = ctx.todo;
-  const token = await ctx.auth.getToken();
-  if (!token) throw new Error("No token");
-
-  // Optimistically update the task.
-  setTasks(
-    (needle) => needle.id === taskId,
-    "name",
-    (_) => newTaskName
-  );
-
-  await fetch(`${api}/api/Tasks/${taskId}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id: taskId, name: newTaskName }),
-  });
-};
-
 export const deleteTask = async (taskId: number, ctx: ApiRequestContext) => {
   const { setTasks } = ctx.todo;
   const token = await ctx.auth.getToken();
@@ -110,29 +61,27 @@ export const deleteTask = async (taskId: number, ctx: ApiRequestContext) => {
   });
 };
 
-export const changeTaskNote = async (
-  taskId: number,
-  newNote: string,
+export const updateTask = async (
+  task: Partial<Task> & Pick<Task, "id">,
   ctx: ApiRequestContext
 ) => {
   const { setTasks } = ctx.todo;
   const token = await ctx.auth.getToken();
   if (!token) throw new Error("No token");
 
-  // Optimistically update the task.
   setTasks(
-    (needle) => needle.id === taskId,
-    "note",
-    (_) => newNote
+    (needle) => needle.id === task.id,
+    (_) => task
   );
 
-  await fetch(`${api}/api/Tasks/${taskId}`, {
+  const { id, ...bodyObj } = task;
+  await fetch(`${api}/api/Tasks/${task.id}`, {
     method: "PUT",
+    body: JSON.stringify(bodyObj),
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ note: newNote }),
   });
 };
 
@@ -208,9 +157,8 @@ export const getTasks = async (
   return await res.json();
 };
 
-export const renameTaskList = async (
-  taskListId: number,
-  newName: string,
+export const updateTaskList = async (
+  taskList: Partial<TaskList> & Pick<TaskList, "id">,
   ctx: ApiRequestContext
 ) => {
   const { setTaskLists } = ctx.todo;
@@ -218,16 +166,14 @@ export const renameTaskList = async (
   if (!token) throw new Error("No token");
 
   setTaskLists(
-    (needle) => needle.id === taskListId,
-    "name",
-    (_) => newName
+    (needle) => needle.id === taskList.id,
+    (_) => taskList
   );
 
-  await fetch(`${api}/api/TaskLists/${taskListId}`, {
+  const { id, ...bodyObj } = taskList;
+  await fetch(`${api}/api/TaskLists/${taskList.id}`, {
     method: "PUT",
-    body: JSON.stringify({
-      name: newName,
-    }),
+    body: JSON.stringify(bodyObj),
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
