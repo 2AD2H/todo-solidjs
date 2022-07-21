@@ -207,3 +207,23 @@ export const getTasks = async (
   );
   return await res.json();
 };
+
+export const renameTaskList = async (
+  taskListId: number,
+  newName: string,
+  ctx: ApiRequestContext
+) => {
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
+
+  await fetch(`${api}/api/TaskLists/${taskListId}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      name: newName,
+    }),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+};
