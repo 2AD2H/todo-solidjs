@@ -37,7 +37,7 @@ const App: Component = () => {
         <div class="flex-1">
           <TaskListContent />
         </div>
-        <Show when={todo?.selectedTask()}>
+        <Show when={todo.selectedTask()}>
           {(task) => <TaskDetail task={task} />}
         </Show>
       </div>

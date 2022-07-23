@@ -5,6 +5,7 @@ export type Task = {
   note?: string;
   listId?: number | null;
   isImportant: boolean;
+  dueDate: string | null;
 };
 
 export type TaskList = {
