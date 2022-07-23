@@ -54,7 +54,6 @@ const TaskDetail: Component<Props> = (props) => {
   };
   const handleDueDatePicked: JSX.EventHandler<HTMLInputElement, Event> = () => {
     const date = dueDateInputRef?.value ?? "";
-    console.log(date, typeof date);
     updateTask(
       { id: props.task.id, dueDate: date === "" ? null : date },
       { todo, auth }
