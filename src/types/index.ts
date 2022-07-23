@@ -6,6 +6,7 @@ export type Task = {
   listId: number | null;
   isImportant: boolean;
   dueDate: string | null;
+  isInMyDay: boolean;
 };
 
 export type TaskList = {

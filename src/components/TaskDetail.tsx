@@ -60,6 +60,13 @@ const TaskDetail: Component<Props> = (props) => {
     );
   };
 
+  const handleAddToMyDayClicked = () => {
+    updateTask(
+      { id: props.task.id, isInMyDay: !props.task.isInMyDay },
+      { todo, auth }
+    );
+  };
+
   return (
     <div class="relative">
       <div class="absolute top-0 left-0 right-0 h-12 flex justify-end bg-neutral-800 px-2">
@@ -70,7 +77,20 @@ const TaskDetail: Component<Props> = (props) => {
       <div class="bg-neutral-800 max-w-[22rem] w-full flex flex-col p-3 gap-4 pt-14 h-full">
         <TaskDetailHeader task={props.task} />
 
-        <TaskDetailButton icon="☀️" text="Add to My Day" />
+        <button
+          class="min-h-[3.5rem] bg-neutral-700 text-neutral-300 flex items-center px-4 py-2 gap-4 rounded-sm hover:bg-neutral-600 cursor-default"
+          onClick={handleAddToMyDayClicked}
+          classList={{
+            "text-blue-500": props.task.isInMyDay,
+          }}
+        >
+          <span>☀️</span>
+          <span>
+            {props.task.isInMyDay === false
+              ? "Add to My Day"
+              : "Added to My Day"}
+          </span>
+        </button>
 
         <div class="flex flex-col relative">
           <button

@@ -31,6 +31,7 @@ const TaskListContent: Component = () => {
           isImportant: false,
           note: "",
           listId: null,
+          isInMyDay: false,
         },
         {
           auth,

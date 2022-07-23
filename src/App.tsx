@@ -1,6 +1,11 @@
 import { Component, createEffect, Show } from "solid-js";
 import { Portal } from "solid-js/web";
-import { getImportantTasks, getTaskLists, getTasks } from "./api";
+import {
+  getImportantTasks,
+  getMyDayTasks,
+  getTaskLists,
+  getTasks,
+} from "./api";
 import { useAuth0 } from "./Auth0Context";
 import Loading from "./components/Loading";
 import Sidebar from "./components/Sidebar";
@@ -25,16 +30,22 @@ const App: Component = () => {
     if (!auth.isAuthenticated()) return;
     todo.setTasks([]);
     (async () => {
+      // Handling filtered task lists
       if (todo.filteredTaskListId() !== null) {
         switch (todo.filteredTaskListId()) {
           case "important": {
             todo.setTasks(await getImportantTasks({ auth, todo }));
             break;
           }
+          case "myday": {
+            todo.setTasks(await getMyDayTasks({ auth, todo }));
+            break;
+          }
         }
         return;
       }
 
+      // Normal task list handling
       todo.setTasks(await getTasks(todo.taskListId(), { auth, todo }));
     })();
   });

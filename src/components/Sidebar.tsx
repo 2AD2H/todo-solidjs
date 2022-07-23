@@ -45,6 +45,14 @@ const Sidebar: Component = () => {
           selected={todo.filteredTaskListId() === "important"}
           taskFilter={(task) => task.isImportant}
         />
+        <TaskListItem
+          taskListId={null}
+          filteredTaskListId="myday"
+          icon="☀"
+          title="My Day"
+          selected={todo.filteredTaskListId() === "myday"}
+          taskFilter={(task) => task.isInMyDay}
+        />
 
         <hr class="border-neutral-600 m-1" />
 

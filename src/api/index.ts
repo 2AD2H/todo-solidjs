@@ -176,6 +176,20 @@ export const getImportantTasks = async (
   return await res.json();
 };
 
+export const getMyDayTasks = async (
+  ctx: ApiRequestContext
+): Promise<Task[]> => {
+  const token = await ctx.auth.getToken();
+  if (!token) throw new Error("No token");
+
+  const res = await fetch(`${api}/api/Tasks/MyDay`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return await res.json();
+};
+
 export const updateTaskList = async (
   taskList: Partial<TaskList> & Pick<TaskList, "id">,
   ctx: ApiRequestContext
