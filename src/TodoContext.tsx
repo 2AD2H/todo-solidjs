@@ -15,6 +15,9 @@ export const makeTodoContext = () => {
   const [filteredTaskListId, setFilteredTaskListId] = createSignal<
     string | null
   >(null);
+  const [filteredTaskListName, setFilteredTaskListName] = createSignal<
+    string | null
+  >(null);
   const [taskFilter, setTaskFilter] = createSignal<TaskFilter | undefined>();
   const taskList = () =>
     taskLists.find((t) => t.id === taskListId()) ||
@@ -62,6 +65,8 @@ export const makeTodoContext = () => {
     setFilteredTaskListId,
     taskFilter,
     setTaskFilter,
+    filteredTaskListName,
+    setFilteredTaskListName,
   };
 };
 

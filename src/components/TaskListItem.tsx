@@ -18,7 +18,9 @@ const TaskListItem: Component<Props> = (props) => {
 
   const handleClick = () => {
     if (props.filteredTaskListId) {
+      todo.setTaskListId(null);
       todo.setFilteredTaskListId(props.filteredTaskListId);
+      todo.setFilteredTaskListName(props.title);
       if (props.taskFilter) {
         todo.setTaskFilter(() => props.taskFilter);
       }
@@ -26,6 +28,7 @@ const TaskListItem: Component<Props> = (props) => {
     }
     todo.setTaskListId(props.taskListId);
     todo.setFilteredTaskListId(null);
+    todo.setFilteredTaskListName(null);
   };
 
   return (

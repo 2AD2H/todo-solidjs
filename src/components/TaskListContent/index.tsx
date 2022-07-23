@@ -63,7 +63,7 @@ const TaskListContent: Component = () => {
       <div class="sticky top-0 left-0 right-0 bg-neutral-900 bg-opacity-60 pt-8 px-10 pb-4 flex justify-between">
         <Show when={todo.taskListId() === null}>
           <h1 class="text-3xl font-medium text-indigo-400">
-            {todo.taskList().name}
+            {todo.filteredTaskListName() ?? todo.taskList().name}
           </h1>
         </Show>
         <Show when={todo.taskListId() !== null}>
