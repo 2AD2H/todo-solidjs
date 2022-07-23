@@ -21,7 +21,7 @@ export const makeTodoContext = () => {
 
   const taskIdsBeingAdded: { [id: number]: boolean } = {};
 
-  const [selectedTaskId, setSelectedTaskId] = createSignal<number | null>();
+  const [selectedTaskId, setSelectedTaskId] = createSignal<number | null>(null);
   const selectedTask = createMemo(() =>
     tasks.find((t) => t.id === selectedTaskId())
   );

@@ -17,7 +17,7 @@ const Task: Component<Props> = (props) => {
 
   const handleClickTask: JSX.EventHandler<HTMLDivElement, MouseEvent> = (e) => {
     if (e.target === checkboxRef || favoriteRef?.contains(e.target)) return;
-    todo?.setSelectedTaskId((prev) => (prev === null ? props.task.id : null));
+    todo.setSelectedTaskId((prev) => (prev === null ? props.task.id : null));
   };
 
   const handleToggleCheck: JSX.EventHandler<HTMLInputElement, Event> = (e) => {
