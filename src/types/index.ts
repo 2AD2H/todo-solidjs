@@ -15,3 +15,5 @@ export type TaskList = {
   groupId: string;
   taskCount: number;
 };
+
+export type TaskFilter = (task: Task) => boolean;

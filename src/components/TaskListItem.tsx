@@ -1,18 +1,31 @@
 import { Component } from "solid-js";
 import { useTodo } from "../TodoContext";
+import { TaskFilter } from "../types";
 
 type Props = {
   taskListId: number | null;
   icon: string;
   title: string;
   selected: boolean;
+
+  filteredTaskListId?: string;
+  filteredApiRoute?: string;
+  taskFilter?: TaskFilter;
 };
 
 const TaskListItem: Component<Props> = (props) => {
   const todo = useTodo();
 
   const handleClick = () => {
+    if (props.filteredTaskListId) {
+      todo.setFilteredTaskListId(props.filteredTaskListId);
+      if (props.taskFilter) {
+        todo.setTaskFilter(() => props.taskFilter);
+      }
+      return;
+    }
     todo.setTaskListId(props.taskListId);
+    todo.setFilteredTaskListId(null);
   };
 
   return (

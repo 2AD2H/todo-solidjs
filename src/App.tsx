@@ -1,6 +1,6 @@
 import { Component, createEffect, Show } from "solid-js";
 import { Portal } from "solid-js/web";
-import { getTaskLists, getTasks } from "./api";
+import { getImportantTasks, getTaskLists, getTasks } from "./api";
 import { useAuth0 } from "./Auth0Context";
 import Loading from "./components/Loading";
 import Sidebar from "./components/Sidebar";
@@ -25,8 +25,17 @@ const App: Component = () => {
     if (!auth.isAuthenticated()) return;
     todo.setTasks([]);
     (async () => {
-      const id = todo.taskListId();
-      todo.setTasks(await getTasks(id, { auth, todo }));
+      if (todo.filteredTaskListId() !== null) {
+        switch (todo.filteredTaskListId()) {
+          case "important": {
+            todo.setTasks(await getImportantTasks({ auth, todo }));
+            break;
+          }
+        }
+        return;
+      }
+
+      todo.setTasks(await getTasks(todo.taskListId(), { auth, todo }));
     })();
   });
 

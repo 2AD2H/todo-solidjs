@@ -33,7 +33,17 @@ const Sidebar: Component = () => {
           taskListId={null}
           icon="🏠"
           title="Tasks"
-          selected={todo.taskListId() === null}
+          selected={
+            todo.taskListId() === null && todo.filteredTaskListId() === null
+          }
+        />
+        <TaskListItem
+          taskListId={null}
+          filteredTaskListId="important"
+          icon="⭐"
+          title="Important"
+          selected={todo.filteredTaskListId() === "important"}
+          taskFilter={(task) => task.isImportant}
         />
 
         <hr class="border-neutral-600 m-1" />
