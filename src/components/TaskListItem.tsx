@@ -1,4 +1,4 @@
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 import { useTodo } from "../TodoContext";
 import { TaskFilter } from "../types";
 
@@ -7,6 +7,7 @@ type Props = {
   icon: string;
   title: string;
   selected: boolean;
+  taskCount: number | null;
 
   filteredTaskListId?: string;
   filteredApiRoute?: string;
@@ -44,9 +45,11 @@ const TaskListItem: Component<Props> = (props) => {
         <div class="">{props.icon}</div>
         <span>{props.title}</span>
       </div>
-      <div class="rounded-full bg-neutral-800 flex justify-center items-center px-1 text-sm">
-        <p class="leading-5">3</p>
-      </div>
+      <Show when={props.taskCount !== null}>
+        <div class="rounded-full bg-neutral-800 flex justify-center items-center px-1 text-sm">
+          <p class="leading-5">{props.taskCount}</p>
+        </div>
+      </Show>
     </div>
   );
 };

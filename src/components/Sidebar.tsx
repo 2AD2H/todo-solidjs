@@ -36,6 +36,7 @@ const Sidebar: Component = () => {
           selected={
             todo.taskListId() === null && todo.filteredTaskListId() === null
           }
+          taskCount={null}
         />
         <TaskListItem
           taskListId={null}
@@ -44,6 +45,7 @@ const Sidebar: Component = () => {
           title="Important"
           selected={todo.filteredTaskListId() === "important"}
           taskFilter={(task) => task.isImportant}
+          taskCount={null}
         />
         <TaskListItem
           taskListId={null}
@@ -52,6 +54,7 @@ const Sidebar: Component = () => {
           title="My Day"
           selected={todo.filteredTaskListId() === "myday"}
           taskFilter={(task) => task.isInMyDay}
+          taskCount={null}
         />
 
         <hr class="border-neutral-600 m-1" />
@@ -63,6 +66,7 @@ const Sidebar: Component = () => {
               icon="💠"
               title={needle.name}
               selected={todo.taskListId() === needle.id}
+              taskCount={needle.taskCount}
             />
           )}
         </For>
