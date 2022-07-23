@@ -2,8 +2,8 @@ export type Task = {
   id: number;
   name: string;
   isCompleted: boolean;
-  note?: string;
-  listId?: number | null;
+  note: string;
+  listId: number | null;
   isImportant: boolean;
   dueDate: string | null;
 };

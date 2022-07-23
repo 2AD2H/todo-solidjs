@@ -23,7 +23,15 @@ const TaskListContent: Component = () => {
     if (e.key !== "Enter" || e.currentTarget.value === "" || !todo) return;
     (async () => {
       addTask(
-        { id: 0, name: e.currentTarget.value, isCompleted: false },
+        {
+          id: 0,
+          name: e.currentTarget.value,
+          isCompleted: false,
+          dueDate: null,
+          isImportant: false,
+          note: "",
+          listId: null,
+        },
         {
           auth,
           todo,
