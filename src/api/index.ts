@@ -27,14 +27,19 @@ export const addTask = async (task: Task, ctx: ApiRequestContext) => {
   taskIdsBeingAdded[newTask.id] = true;
 
   // Simulate the API call to create the task.
-  const res = await fetch(`${api}/api/Tasks/${taskListId()}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(task),
-  });
+  const res = await fetch(
+    taskListId() === null
+      ? `${api}/api/Tasks`
+      : `${api}/api/Tasks/${taskListId()}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(task),
+    }
+  );
   const newTaskFromApi: Task = await res.json();
 
   delete taskIdsBeingAdded[newTask.id];
